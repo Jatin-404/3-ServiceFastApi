@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from httpx import AsyncClient
 from pydantic import BaseModel, Field, field_validator
+import asyncio
 
 app = FastAPI()
 
@@ -27,7 +28,10 @@ def split_into_chunks(text: str, chunk_size: int = 50):   # keeping chunk_size s
 
     return chunks
 
-
+async def call_worker(client: AsyncClient, chunk: dict) -> dict:
+    response = await client.post("http://localhost:8002/work", json=chunk)
+    response.raise_for_status()
+    return response.json()
 
 
 @app.get("/health")
@@ -43,15 +47,24 @@ async def process(data: ProcessRequest):
     results = []
 
     async with AsyncClient() as client:
-        for chunk in chunks:
-            response = await client.post(f"http://localhost:8002/work", json = chunk)
-            response.raise_for_status()   # 
-            result = response.json()
-            results.append(result)
+        tasks = [call_worker(client, chunk) for chunk in chunks]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    summaries = []
+    for i, result in enumerate(results):
+        if isinstance(result, Exception):
+            summaries.append({
+                "chunk_index": i,
+                "word_count": 0,
+                "most_common_word": f"[error on chunk {i}]"
+            })
+        else:
+            summaries.append(result)
+
 
     return{
         "total Chunks": len(chunks),
-        "results": results
+        "results": summaries
     }
 
 
