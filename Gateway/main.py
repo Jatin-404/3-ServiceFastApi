@@ -1,6 +1,6 @@
 from fastapi import FastAPI, BackgroundTasks, HTTPException
 from httpx import AsyncClient, RequestError, HTTPStatusError
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, field_validator
 import uuid
 from shared.logger import setup_logger
 from dotenv import load_dotenv

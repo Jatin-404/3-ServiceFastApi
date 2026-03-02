@@ -1,0 +1,2 @@
+{"asctime": "2026-03-02 11:09:50,180", "levelname": "INFO", "name": "Gateway", "service": "Gateway", "message": "text has been accepted and queued for processing"}
+{"asctime": "2026-03-02 11:09:51,365", "levelname": "INFO", "name": "Gateway", "service": "Gateway", "message": "all chunks processed"}

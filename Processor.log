@@ -1,0 +1,7 @@
+{"asctime": "2026-03-02 11:09:50,793", "levelname": "INFO", "name": "Processor", "service": "Processor", "message": "chunks formed"}
+{"asctime": "2026-03-02 11:09:51,357", "levelname": "INFO", "name": "Processor", "service": "Processor", "message": "calling Worker"}
+{"asctime": "2026-03-02 11:09:51,358", "levelname": "INFO", "name": "Processor", "service": "Processor", "message": "calling Worker"}
+{"asctime": "2026-03-02 11:09:51,359", "levelname": "INFO", "name": "Processor", "service": "Processor", "message": "calling Worker"}
+{"asctime": "2026-03-02 11:09:51,360", "levelname": "INFO", "name": "Processor", "service": "Processor", "message": "calling Worker"}
+{"asctime": "2026-03-02 11:09:51,361", "levelname": "INFO", "name": "Processor", "service": "Processor", "message": "calling Worker"}
+{"asctime": "2026-03-02 11:09:51,362", "levelname": "INFO", "name": "Processor", "service": "Processor", "message": "calling Worker"}

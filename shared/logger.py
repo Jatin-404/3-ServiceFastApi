@@ -2,9 +2,6 @@ import logging
 import os ,sys
 from pythonjsonlogger import jsonlogger
 
-
-
-
 def setup_logger(service_name: str) -> logging.Logger:
 
     logger = logging.getLogger(service_name)

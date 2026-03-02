@@ -1,0 +1,31 @@
+services:
+  gateway:
+    build: 
+      context: .
+      dockerfile: Gateway/dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PROCESSOR_URL=http://processor:8001/process
+      - LOG_ENV=docker
+    depends_on:
+      - processor
+
+  processor:
+    build:
+      context: .
+      dockerfile: Processor/dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - WORKER_URL=http://worker:8002/work
+      - LOG_ENV=docker
+    depends_on:
+      - worker
+  
+  worker:
+    build:
+      context: .
+      dockerfile: Worker/dockerfile
+    ports:
+      - "8002:8002"
