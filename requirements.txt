@@ -3,3 +3,5 @@ fastapi
 httpx
 pydantic
 asyncio
+python-json-logger
+dotenv

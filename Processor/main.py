@@ -3,8 +3,17 @@ from httpx import AsyncClient
 from pydantic import BaseModel, Field, field_validator
 import asyncio
 from shared.logger import setup_logger
+from dotenv import load_dotenv
+from pathlib import Path
+import os
+env_path = Path(__file__).resolve().parent / ".env"
+load_dotenv(dotenv_path=env_path)
+
 
 logger = setup_logger(service_name="Processor")
+
+WORKER_URL = os.getenv("WORKER_URL")
+
 
 app = FastAPI()
 
@@ -32,7 +41,7 @@ def split_into_chunks(text: str, chunk_size: int = 50):   # keeping chunk_size s
     return chunks
 
 async def call_worker(client: AsyncClient, chunk: dict) -> dict:
-    response = await client.post("http://localhost:8002/work", json=chunk)
+    response = await client.post(WORKER_URL, json=chunk)
     response.raise_for_status()
 
     logger.info(msg="calling Worker")

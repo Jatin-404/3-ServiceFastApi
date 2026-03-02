@@ -3,8 +3,18 @@ from httpx import AsyncClient, RequestError, HTTPStatusError
 from pydantic import BaseModel, Field, field_validator
 import uuid
 from shared.logger import setup_logger
+from dotenv import load_dotenv
+import os
+from pathlib import Path
+
+env_path = Path(__file__).resolve().parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 logger = setup_logger(service_name="Gateway")
+
+
+PROCESSOR_URL = os.getenv("PROCESSOR_URL")
+
 
 
 app = FastAPI()
@@ -24,7 +34,7 @@ async def get_text(data: UploadRequest, job_id):
     jobs[job_id]["status"] = "Processing" 
     try:
         async with AsyncClient() as client:
-            response = await client.post("http://localhost:8001/process",json={"text": data.text})
+            response = await client.post(PROCESSOR_URL,json={"text": data.text})
             response.raise_for_status()
             result = response.json()
 
