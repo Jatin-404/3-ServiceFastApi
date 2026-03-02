@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from pydantic import BaseModel, Field, field_validator
 from collections import Counter
+from shared.logger import setup_logger
 
 app = FastAPI()
 
+
+logger = setup_logger(service_name="Worker")
 
 
 class ChunkRequest(BaseModel):              # Validating incoming chunk 
@@ -26,6 +29,7 @@ class ChunkResponse(BaseModel):
 
 @app.get("/health")
 def health():
+    logger.info("Healthy")
     return{
         "Health": "OK",
         "Service": "Worker"
@@ -33,6 +37,7 @@ def health():
 
 @app.post("/work")
 async def do_work(data: ChunkRequest):
+    logger.info(msg="Worker service activated")
     words = data.text.lower().split()
     word_counts = Counter(words)           # Counter counts how many times each word appears
     most_common = word_counts.most_common(1)[0][0]   # most_common(1) returns [('the', 5)], [0][0] gets just 'the'
